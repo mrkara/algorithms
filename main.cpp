@@ -157,6 +157,42 @@ void mergeSort(Item input[], int first, int last)
 	// else already sorted (there is only one item in the array)
 }
 
+// Returns index of pivot
+template <class Item>
+int partition(Item input[], int first, int last)
+{
+	if (first >= last)
+		return first;
+
+	Item pivot = input[first];
+	int lastS1 = first;
+	int firstUnknown = first +1;
+
+	for (; firstUnknown <= last; firstUnknown++)
+	{
+		if (input[firstUnknown] < pivot)
+		{
+			lastS1++;
+			swap(input[lastS1], input[firstUnknown]);
+		}
+		// else it is part of S2
+	}
+	swap(input[first], input[lastS1]);
+
+	return lastS1;
+}
+
+template <class Item>
+void quickSort(Item input[], int first, int last)
+{
+	if (first < last)
+	{
+		int pivotIndex = partition(input, first, last);
+		quickSort(input, first, pivotIndex - 1);
+		quickSort(input, pivotIndex + 1, last);
+	}
+}
+
 int main()
 {
 	int input[5] = {9, 1, 7, 8, 2};
@@ -169,7 +205,8 @@ int main()
 	//insertionSort(input, n);
 	//shellSort(input, n);
 	//bubbleSort(input, n);
-	mergeSort(input, 0, 4);
+	//mergeSort(input, 0, 4);
+	quickSort(input, 0, n-1);
 
 	// Test the merge() method
 	/*int inp[6] = {1, 2, 3, 1, 2, 3};
